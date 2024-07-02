@@ -1,6 +1,7 @@
 
 import React,{Component} from "react";
 import NewItem from "./NewsItem";
+import Loading from './Loading';
 
 export default class News extends Component{
  
@@ -13,13 +14,14 @@ export default class News extends Component{
         this.state={
             articles:[],
             page:1,
-            totalRes:0
+            totalRes:0,
+            loading:false
 
         }
     }
 //it runs after render
    async componentDidMount(){
-    let url ="https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=1";
+    let url =`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=1&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let parseData = await data.json();
     this.setState({articles:parseData.articles,
@@ -32,12 +34,15 @@ export default class News extends Component{
     if(this.state.page+1>Math.ceil(this.state.totalRes/20)){
 
     }else{
-    let url =`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=${this.state.page+1}`;
+    let url =`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
+    
+    this.setState({loading:true})
     let data = await fetch(url);
     let parseData = await data.json();
     this.setState(
         {articles:parseData.articles,
-            page :this.state.page+1
+            page :this.state.page+1,
+            loading:false
         }
         
 
@@ -47,12 +52,17 @@ export default class News extends Component{
    }
    Prev=async()=>{
       
-      let url =`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=${this.state.page - 1}`;
-    let data = await fetch(url);
+      let url =`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
+      
+      //while loading data from fetch api the loading will be set to true and spinning will show
+      this.setState({loading:true})
+      let data = await fetch(url);
     let parseData = await data.json();
     this.setState(
         {articles:parseData.articles,
-            page :this.state.page - 1
+            page :this.state.page - 1,
+            // after the data si loaded the loading is set to false 
+            loading:false
         }
         
 
@@ -63,11 +73,16 @@ export default class News extends Component{
 
             <div>
                 <div className="container my-5">
-                    <h1>Top-Headlines</h1>
+                    <h1 className="text-center">Top-Headlines</h1>
                     <hr />
+                    
+
+                    {/* it loading is true then only the loading spinner will be visible */}
+                    {this.state.loading&&<Loading/>}
                     <div className="row">
-                    {this.state.articles.map((element)=>{
-                        return <div className="col md-3 mb-2" key={element.url}>
+                        {/* if there is loading do not show the news content */}
+                    {!this.state.loading && this.state.articles.map((element)=>{
+                        return  <div className="col md-3 mb-2" key={element.url}>
                         <NewItem title={element.title?element.title.slice(0,60)+"....":" "} description={element.description?element.description.slice(0,80)+"...": " "} imgUrl={element.urlToImage} url={element.url}/>
                         </div>
                         
