@@ -1,18 +1,25 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 
-export default class NewItem extends Component{
-    render(){
-        let {title ,description,imgUrl,url} = this.props;
-        return(
-            <div>
-            <div class="card" style={{width: "18rem"}}>
-            <img src={imgUrl} class="card-img-top" alt="..." style={{height:"160px"}}/>
-            <div class="card-body">
-            <h5 class="card-title">{title}</h5>
-            <p class="card-text">{description}</p>
-            <a href={url} target="_blank" class="btn btn-sm btn-primary">Read More</a>
-            </div>
-            </div>
+export default class NewItem extends Component {
+    render() {
+        let { title, description, imgUrl, url, publishedAt, author, source,sourceColor } = this.props;
+        return (
+            <div className='my-3'>
+                <div className="card ">
+                    <span class="position-absolute top-0  translate-middle badge rounded-pill " style={{left:'90%',zIndex:'1',color:'black',backgroundColor:`${sourceColor}`}}>
+                        {source}
+                        
+                    </span>
+                    <img src={imgUrl} className="card-img-top" alt="..." style={{ height: "160px" }} />
+                    <div className="card-body">
+                        <h5 className="card-title">{title}</h5>
+                        <p className="card-text">{description}</p>
+                        <p className="card-text"><small className="text-muted">By {author ? "unknown" : author} updated on {publishedAt}</small></p>
+                        <a href={url} target="_blank" rel="noreferrer" className="btn btn-sm btn-primary">Read More</a>
+
+
+                    </div>
+                </div>
             </div>
         )
     }

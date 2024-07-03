@@ -2,16 +2,26 @@
 import React,{Component} from "react";
 import NewItem from "./NewsItem";
 import Loading from './Loading';
+import PropTypes from 'prop-types';
 
 export default class News extends Component{
  
+    static defaultProps={
+        category:"general",
+        pageSize:5,
+        sourceColor:"red",
+
+    }
+    static propTypes={
+        category:PropTypes.string,
+        pageSize:PropTypes.number,
+        sourceColor:PropTypes.string
+    }
    
 
     constructor(){
         super();
-        console.log("i am news item");
-
-        this.state={
+            this.state={
             articles:[],
             page:1,
             totalRes:0,
@@ -21,7 +31,7 @@ export default class News extends Component{
     }
 //it runs after render
    async componentDidMount(){
-    let url =`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=1&pageSize=${this.props.pageSize}`;
+    let url =`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=1&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let parseData = await data.json();
     this.setState({articles:parseData.articles,
@@ -34,7 +44,7 @@ export default class News extends Component{
     if(this.state.page+1>Math.ceil(this.state.totalRes/20)){
 
     }else{
-    let url =`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
+    let url =`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
     
     this.setState({loading:true})
     let data = await fetch(url);
@@ -52,7 +62,7 @@ export default class News extends Component{
    }
    Prev=async()=>{
       
-      let url =`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
+      let url =`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
       
       //while loading data from fetch api the loading will be set to true and spinning will show
       this.setState({loading:true})
@@ -83,7 +93,9 @@ export default class News extends Component{
                         {/* if there is loading do not show the news content */}
                     {!this.state.loading && this.state.articles.map((element)=>{
                         return  <div className="col md-3 mb-2" key={element.url}>
-                        <NewItem title={element.title?element.title.slice(0,60)+"....":" "} description={element.description?element.description.slice(0,80)+"...": " "} imgUrl={element.urlToImage} url={element.url}/>
+                        <NewItem title={element.title?element.title.slice(0,60)+"....":" "} description={element.description?element.description.slice(0,80)+"...": " "} imgUrl={element.urlToImage} url={element.url} 
+                        publishedAt={new Date(element.publishedAt).toGMTString()} author={element.author}
+                        source={element.source.name} sourceColor={this.props.sourceColor}/>
                         </div>
                         
                     })}
