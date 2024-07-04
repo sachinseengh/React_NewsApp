@@ -31,53 +31,60 @@ export default class News extends Component{
     }
 //it runs after render
    async componentDidMount(){
-    let url =`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=1&pageSize=${this.props.pageSize}`;
-    let data = await fetch(url);
-    let parseData = await data.json();
-    this.setState({articles:parseData.articles,
-        totalRes:parseData.totalResults
-    });
+   this.updateNews();
+   console.log(this.state.page);
+   
+   
    }
 
-   Next=async()=>{
-    
-    if(this.state.page+1>Math.ceil(this.state.totalRes/20)){
+   updateNews =async ()=>{
 
-    }else{
-    let url =`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
+    let url =`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     
     this.setState({loading:true})
     let data = await fetch(url);
     let parseData = await data.json();
+    // console.log(parseData);
     this.setState(
         {articles:parseData.articles,
-            page :this.state.page+1,
-            loading:false
-        }
+        totalRes:parseData.totalResults,
+        loading:false,
         
-
+        }
     );
-}
+   }
+
+   Next=async()=>{
+    
+//     if(this.state.page+1>Math.ceil(this.state.totalRes/this.props.pageSize)){
+
+//     }else{
+//         this.setState({page:this.state.page+1});
+//         this.updateNews();
+//         console.log(this.state.page);
+// }
+
+                this.setState(
+                    () => ({page: this.state.page + 1 }),
+                    this.updateNews
+                );
+            
 
    }
    Prev=async()=>{
       
-      let url =`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=fd6881f708bd441bb1b87fa5a540c665&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
-      
-      //while loading data from fetch api the loading will be set to true and spinning will show
-      this.setState({loading:true})
-      let data = await fetch(url);
-    let parseData = await data.json();
     this.setState(
-        {articles:parseData.articles,
-            page :this.state.page - 1,
-            // after the data si loaded the loading is set to false 
-            loading:false
-        }
+        () => ({ page: this.state.page - 1 }),
+        this.updateNews
         
 
     );
+    console.log(this.state.page);
+
+     
    }
+
+
     render(){
         return(
 
@@ -104,7 +111,7 @@ export default class News extends Component{
 
                     <div className="container d-flex justify-content-between mb-5">
                     <button disabled={this.state.page<=1} type="button" class="btn btn-dark" onClick={this.Prev}> &larr; Previous</button>
-                    <button disabled={this.state.page+1>Math.ceil(this.state.totalRes/20)}  type="button" class="btn btn-dark" onClick={this.Next}>Next &rarr;</button>
+                    <button disabled={this.state.page+1>Math.ceil(this.state.totalRes/this.props.pageSize)}  type="button" class="btn btn-dark" onClick={this.Next}>Next &rarr;</button>
                     </div>
                 
              
