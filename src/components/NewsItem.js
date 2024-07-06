@@ -6,10 +6,15 @@ export default class NewItem extends Component {
         return (
             <div className='my-3'>
                 <div className="card ">
-                    <span class="position-absolute top-0  translate-middle badge rounded-pill " style={{left:'90%',zIndex:'1',color:'black',backgroundColor:`${sourceColor}`}}>
+                    
+                    <span class="position-absolute top-0 right-0 end-0 translate-start  badge rounded-pill " style={{backgroundColor:`${sourceColor}
+                    `}}>
+                        
                         {source}
                         
+                      
                     </span>
+                    
                     <img src={imgUrl} className="card-img-top" alt="..." style={{ height: "160px" }} />
                     <div className="card-body">
                         <h5 className="card-title">{title}</h5>
