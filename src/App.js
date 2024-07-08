@@ -12,11 +12,19 @@ import LoadingBar from 'react-top-loading-bar'
 
 export default class App extends Component{
 
+  Apikey=process.env.REACT_APP_NEWS_API;
+  // Apikey="20ded01fa66848e4bd84935659b55126";
+
+  
+ 
+  
   state={
     progress:10
+    
   }
   setProgress =(progress)=>{
     this.setState({progress:progress})
+    
   }
   
    router = createBrowserRouter([
@@ -24,41 +32,41 @@ export default class App extends Component{
       path: "/",
       element:<><Navbar></Navbar>
       
-     <News setProgress={this.setProgress} key="general" pageSize={4} category={"general"}/>
+     <News setProgress={this.setProgress} apiKey={this.Apikey} key="general" pageSize={4} category={"general"}/>
      </>
     },
     {
       path: "/entertainment",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} key="entertainment"pageSize={4} category={"entertainment"} sourceColor={"green"}/>
+     <News setProgress={this.setProgress} apiKey={this.Apikey} key="entertainment"pageSize={4} category={"entertainment"} sourceColor={"green"}/>
      </>
     },
     {
       path: "/business",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} key="business" pageSize={4} category={"business"} sourceColor={"cyan"}/>
+     <News setProgress={this.setProgress} apiKey={this.Apikey} key="business" pageSize={4} category={"business"} sourceColor={"cyan"}/>
      </>
     },
     {
       path: "/health",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} key="health" pageSize={4} category={"health"} sourceColor={"pink"}/>
+     <News setProgress={this.setProgress} apiKey={this.Apikey} key="health" pageSize={4} category={"health"} sourceColor={"pink"}/>
      </>
     },
     {
       path: "/science",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} key="science" pageSize={4} category={"science"} sourceColor={"yellow"}/>
+     <News setProgress={this.setProgress} apiKey={this.Apikey} key="science" pageSize={4} category={"science"} sourceColor={"yellow"}/>
      </>
     },{
       path: "/sports",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} key="sports" pageSize={4} category={"sports"} sourceColor={"white"}/>
+     <News setProgress={this.setProgress} apiKey={this.Apikey} key="sports" pageSize={4} category={"sports"} sourceColor={"white"}/>
      </>
     },{
       path: "/technology",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} key="technology" pageSize={4} category={"technology"} sourceColor={"purple"}/>
+     <News setProgress={this.setProgress} apiKey={this.Apikey} key="technology" pageSize={4} category={"technology"} sourceColor={"purple"}/>
      </>
     }
    
