@@ -1,6 +1,6 @@
 
 import './App.css';
-import React,{Component} from 'react';
+import React,{useState} from 'react';
 import Navbar from './components/Navbar';
 import News from './components/News';
 import {RouterProvider, createBrowserRouter } from 'react-router-dom'
@@ -10,80 +10,78 @@ import LoadingBar from 'react-top-loading-bar'
 //to install react router dom the command is npm i react-router-dom
 
 
-export default class App extends Component{
+const App =()=>{
 
-  Apikey=process.env.REACT_APP_NEWS_API;
+  const Apikey=process.env.REACT_APP_NEWS_API;
   // Apikey="20ded01fa66848e4bd84935659b55126";
 
   
  
+  const [progress,newProgress]=useState(10);
   
-  state={
-    progress:10
-    
-  }
-  setProgress =(progress)=>{
-    this.setState({progress:progress})
+ 
+  const setProgress =(progress)=>{
+      newProgress(progress=progress);
     
   }
   
-   router = createBrowserRouter([
+   const router = createBrowserRouter([
     {
       path: "/",
       element:<><Navbar></Navbar>
       
-     <News setProgress={this.setProgress} apiKey={this.Apikey} key="general" pageSize={4} category={"general"}/>
+     <News setProgress={setProgress} apiKey={Apikey} key="general" pageSize={4} category={"general"}/>
      </>
     },
     {
       path: "/entertainment",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} apiKey={this.Apikey} key="entertainment"pageSize={4} category={"entertainment"} sourceColor={"green"}/>
+     <News setProgress={ setProgress} apiKey={Apikey} key="entertainment"pageSize={4} category={"entertainment"} sourceColor={"green"}/>
      </>
     },
     {
       path: "/business",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} apiKey={this.Apikey} key="business" pageSize={4} category={"business"} sourceColor={"cyan"}/>
+     <News setProgress={ setProgress} apiKey={ Apikey} key="business" pageSize={4} category={"business"} sourceColor={"cyan"}/>
      </>
     },
     {
       path: "/health",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} apiKey={this.Apikey} key="health" pageSize={4} category={"health"} sourceColor={"pink"}/>
+     <News setProgress={ setProgress} apiKey={ Apikey} key="health" pageSize={4} category={"health"} sourceColor={"pink"}/>
      </>
     },
     {
       path: "/science",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} apiKey={this.Apikey} key="science" pageSize={4} category={"science"} sourceColor={"yellow"}/>
+     <News setProgress={ setProgress} apiKey={ Apikey} key="science" pageSize={4} category={"science"} sourceColor={"yellow"}/>
      </>
     },{
       path: "/sports",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} apiKey={this.Apikey} key="sports" pageSize={4} category={"sports"} sourceColor={"white"}/>
+     <News setProgress={ setProgress} apiKey={ Apikey} key="sports" pageSize={4} category={"sports"} sourceColor={"white"}/>
      </>
     },{
       path: "/technology",
       element:<><Navbar/>
-     <News setProgress={this.setProgress} apiKey={this.Apikey} key="technology" pageSize={4} category={"technology"} sourceColor={"purple"}/>
+     <News setProgress={ setProgress} apiKey={ Apikey} key="technology" pageSize={4} category={"technology"} sourceColor={"purple"}/>
      </>
     }
    
   ])
-  render(){
+
     return(
       <>
       
-       <RouterProvider router={this.router}/>
+       <RouterProvider router={ router}/>
       
        <LoadingBar
         color='#f11946'
-        progress={this.state.progress}
+        progress={progress}
         
       />
        </>
     )
   }
-}
+export default App
 

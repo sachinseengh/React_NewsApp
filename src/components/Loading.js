@@ -4,8 +4,7 @@ import loading from './25.gif';
 
 
 
-export default class Loading extends Component{
-    render(){
+const Loading =()=>{
         return(
             <>
             <div className="text-center">
@@ -13,5 +12,6 @@ export default class Loading extends Component{
             </div>
             </>
         )
-    }
+  
 }
+export default Loading
