@@ -23,6 +23,7 @@ const  News =(props)=> {
     
    useEffect(()=>{
       updateNews();
+      // eslint-disable-next-line
    },[])
 
     
@@ -31,7 +32,7 @@ const  News =(props)=> {
         props.setProgress(0)
         
         let url =`https://newsapi.org/v2/top-headlines?country=us&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
-        console.log(url);
+        
         setLoading(true);
         let data = await fetch(url);
         props.setProgress(30);
@@ -56,7 +57,7 @@ const  News =(props)=> {
                 let url = `https://newsapi.org/v2/top-headlines?country=us&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
                 
        //as it is a asynchronous function it takes some time to update   
-    setPage(page+1);
+                setPage(page+1);
                 setLoading(true);
                 let data = await fetch(url);
                 let parseData = await data.json();
