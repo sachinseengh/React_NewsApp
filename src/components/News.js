@@ -23,7 +23,7 @@ const  News =(props)=> {
     
    useEffect(()=>{
       updateNews();
-   },[ ])
+   },[])
 
     
 
@@ -50,13 +50,13 @@ const  News =(props)=> {
 
 
 
-    setPage(page+1);
         
             
     
-                let url = `https://newsapi.org/v2/top-headlines?country=us&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
-                console.log(url);
-          
+                let url = `https://newsapi.org/v2/top-headlines?country=us&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
+                
+       //as it is a asynchronous function it takes some time to update   
+    setPage(page+1);
                 setLoading(true);
                 let data = await fetch(url);
                 let parseData = await data.json();
@@ -64,7 +64,7 @@ const  News =(props)=> {
 
                 setArticles(articles.concat(parseData.articles));
                 setTotalRes(parseData.totalResults);
-                setLoading(true);
+                setLoading(false);
                 
             
         
@@ -74,7 +74,7 @@ const  News =(props)=> {
     
         return (
             <>
-                <h1 className="text-center my-4">{`Top-${props.category}-Headlines`}</h1>
+                <h1 className="text-center " style={{marginTop:'90px'}}>{`Top-${props.category}-Headlines`}</h1>
                 <hr />
                 {loading && <Loading />}
                 <div className="container my-1">
